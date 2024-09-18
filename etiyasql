@@ -1,99 +1,97 @@
-select categoryname, COUNT(productid) AS ProductCount
-FROM Categories
-LEFT JOIN Products ON categoryid = categoryid
-GROUP BY categoryname
+SELECT categoryid, count(productname) AS 'Product Name ' 
+FROM Products
+GROUP BY categoryid
 
-select productname, unitprice
-from Products 
-Order by unitprice desc
+SELECT productname, unitprice
+FROM Products 
+ORDER BY unitprice DESC
 LIMIT 5
 
-SELECT suppliername, AVG(unitprice) AS AveragePrice
-from Suppliers
-join Products ON supplierid=supplierid
-group by suppliername
+SELECT supplierid, AVG(unitprice) AS 'Average Price' 
+FROM Products
+GROUP by supplierid
 
-select categoryname, AVG(unitprice) AS AveragePrice
-from Products
-join Categories on categoryid=categoryid
-where unitprice > 100
-group by categoryname
+SELECT productname, categoryid, AVG(unitprice) AS 'Average Price' 
+FROM Products
+WHERE unitprice>100
+GROUP BY categoryid
 
-SELECT orderid, unitprice, quantity, (unitprice * quantity) as TotalSalesValue
-from OrderDetail
-WHERE (unitprice * quantity) > 1000
 
-select orderid, customerid, orderdate, shippeddate
-from Orders
-where shippeddate IS NOT NULL
+SELECT productid, (unitprice*quantity) AS 'Total Sales Value' 
+FROM 'Order Details'
+WHERE (unitprice*quantity)>1000
+
+SELECT orderid, customerid, orderdate, shippeddate
+FROM Orders
+WHERE shippeddate IS NOT NULL
 ORDER BY shippeddate DESC
 LIMIT 10
 
 SELECT AVG(unitprice)
-from Products
+FROM Products
 
 SELECT SUM(unitsinstock) AS TotalStock
-from Products
-where unitprice >50
+FROM Products
+WHERE unitprice >50
 
-select orderid, customerid, orderdate
-from Orders
+SELECT orderid, customerid, orderdate
+FROM Orders
 ORDER BY orderdate ASC
 LIMIT 1
 
-SELECT employeeid, firstname, lastname, TIMESTAMPDIFF(YEAR, hiredate, curdate()) AS YearsEmployed
-from Employees
+SELECT employeeid, (2024 - hiredate) AS 'Years of Work' 
+FROM Employees
 
-select orderid, ROUND(SUM(unitprice * quantity), 2) as TotalPrice
-FROM OrderDetail
-group by orderid
+SELECT orderid, ROUND(SUM(unitprice * quantity), 2) AS TotalPrice
+FROM 'Order Details'
+GROUP BY orderid
 
-select COUNT(*) AS instockcount
-from Products
-where unitsinstock > 0
+SELECT COUNT(*) AS instockcount
+FROM Products
+WHERE unitsinstock > 0
 
-select MIN(unitprice) as LowestPrice, MAX(unitprice) as HighestPrice
-from Products
+SELECT MIN(unitprice) as LowestPrice, MAX(unitprice) as HighestPrice
+FROM Products
 
-select YEAR(orderdate) as Year, Count(*) AS OrderCount
-From Orders
-GROUP by YEAR(orderdate)
-Order BY YEAR(orderdate)
+SELECT STRFTIME('%Y', OrderDate) AS OrderYear, COUNT(*) AS OrderCount
+FROM Orders
+GROUP BY OrderYear
 
-select CONCAT(firstname, '',lastname) as fullname
-from Employees
+SELECT CONCAT(firstname, ' ',lastname) as fullname
+FROM Employees
 
 select city, LENGTH(city) as CityLength
 FROM Customers
 
-select productid, productname, ROUND(unitprice, 2) as RoundPrice
-from Products
+SELECT productid, productname, ROUND(unitprice, 2) AS RoundPrice
+FROM Products
 
 select COUNT(*) AS TotalOrders
 from Orders
 
-SELECT categoryid, AVG(unitprice) as AveragePrice
-From Products
-group by categoryid
+SELECT categoryid, AVG(unitprice) AS AveragePrice
+FROM Products
+GROUP BY categoryid
 
-select 
+SELECT 
 (COUNT(CASE WHEN shippeddate IS NULL THEN 1 END ) * 100.0 / COUNT(*)) AS PercentageOfUnshippedOrders
-from Orders
+FROM Orders
 
-select MAX(unitprice) as MaxPrice, MAX(unitprice) * 1.10 AS IncreasedPrice
-from Products
+SELECT MAX(unitprice) as MaxPrice, MAX(unitprice) * 1.10 AS IncreasedPrice
+FROM Products
 
-select productid, productname, SUBSTRING(productname, 1, 3) AS First3Char
-from Products
+SELECT productid, productname, SUBSTRING(productname, 1, 3) AS First3Char
+FROM Products
 
-select STRFTIME('%Y', orderdate) AS Year, STRFTIME('%M', orderdate) as Month, COUNT(*) AS OrderCount
+SELECT STRFTIME('%Y', orderdate) AS Year, STRFTIME('%M', orderdate) AS Month, COUNT(*) AS OrderCount
 from Orders
 GROUP BY Year, Month
-oRDER BY Year, Month
+ORDER BY Year, Month
 
-SELECT orderid, productid, ROUND(unitprice * quantity, 2) AS TotalPrice
-from OrderDetails
+SELECT orderid, ROUND(SUM(unitprice*quantity),2) 
+FROM 'Order Details'
+GROUP by orderid
 
 SELECT SUM(unitprice) AS TotalPrice
-from Products
-where unitsinstock = 0
+FROM Products
+WHERE unitsinstock = 0
