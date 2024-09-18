@@ -86,9 +86,9 @@ from Products
 select productid, productname, SUBSTRING(productname, 1, 3) AS First3Char
 from Products
 
-select YEAR(orderdate) AS Year, MONTH(orderdate) as Month, COUNT(*) AS OrderCount
+select STRFTIME('%Y', orderdate) AS Year, STRFTIME('%M', orderdate) as Month, COUNT(*) AS OrderCount
 from Orders
-group by YEAR(orderdate), MONTH(orderdate)
+GROUP BY Year, Month
 oRDER BY Year, Month
 
 SELECT orderid, productid, ROUND(unitprice * quantity, 2) AS TotalPrice
